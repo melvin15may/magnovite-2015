@@ -1,12 +1,15 @@
 var anim = anim || {};
 
 (function() {
+
     var background = '#1d215c';
     var radius = 10;
     var maxSpeed = 0.7;
     var id = 1;
 
     /**
+     * Initializes an atom object with random cordinates,
+     * and random velocity
      * {arg canvas} : canvas element DOM node
      * {Constructor}
      */
@@ -46,7 +49,7 @@ var anim = anim || {};
         this.x += this.vx;
         this.y += this.vy;
 
-        // check bounds
+        // check vertical bounds
         if (this.x + this.radius > this.bounds.right) {
             this.x = this.bounds.right - this.radius;
             this.vx *= -1;
@@ -55,6 +58,7 @@ var anim = anim || {};
             this.vx *= -1;
         }
 
+        // check horizontal bounds
         if (this.y + this.radius > this.bounds.bottom) {
             this.y = this.bounds.bottom - this.radius;
             this.vy *= -1;
@@ -87,4 +91,5 @@ var anim = anim || {};
 
     // external interface
     anim.Atom = Atom;
+
 })();

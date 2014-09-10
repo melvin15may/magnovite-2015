@@ -1,6 +1,7 @@
 var anim = anim || {};
 
 (function() {
+
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
 
@@ -8,6 +9,7 @@ var anim = anim || {};
     var atoms = []
     var nAtoms = 30;
     var energyMinDist = 150;
+
     /**
      * Must be called to init the animation library
      */
@@ -20,7 +22,8 @@ var anim = anim || {};
     }
 
     /**
-     * Called when DOMContentLoaded fires
+     * Essentially the entry point for the app
+     * Called after DOM load
      */
     function main() {
         var i;
@@ -35,22 +38,23 @@ var anim = anim || {};
         draw();
     }
 
-
     /**
      * Draws a line between two atoms based on the distance
      * {args atomA} : Object of class {Atom}
      * {args atomB} : Object of class {Atom}
      */
     function energyLine(atomA, atomB) {
+        var dx, dy, dist, alpha;
+
         if (atomA.id === atomB.id)
             return;
 
-        var dx = atomB.x - atomA.x;
-        var dy = atomB.y - atomA.y;
-        var dist = Math.sqrt(dx * dx + dy * dy);
+        dx = atomB.x - atomA.x;
+        dy = atomB.y - atomA.y;
+        dist = Math.sqrt(dx * dx + dy * dy);
 
         if (dist < energyMinDist) {
-            var alpha = (1 - dist / energyMinDist) * 0.2;
+            alpha = (1 - dist / energyMinDist) * 0.2;
             context.strokeStyle = 'rgba(255, 255, 255, ' + alpha + ')';
             context.beginPath();
             context.moveTo(atomA.x, atomA.y);
@@ -83,4 +87,5 @@ var anim = anim || {};
     anim.init = init;
     anim.canvas = canvas;
     anim.context = context;
+
 })();
