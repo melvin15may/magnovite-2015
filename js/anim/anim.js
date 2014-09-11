@@ -74,6 +74,7 @@ var anim = anim || {};
         atoms.forEach(function(atom) {
             atoms.forEach(function(atomB) {
                 energyLine(atom, atomB);
+                atom.collide(atomB);
             });
         });
 

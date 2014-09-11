@@ -2,10 +2,12 @@ var anim = anim || {};
 
 (function() {
 
-    var background = '#1d215c';
-    var radius = 10;
-    var maxSpeed = 0.7;
     var id = 1;
+    var background = '#1d215c';
+    var minRadius = 7;
+    var varRadius = 3;
+    var maxSpeed = 0.6;
+    var weight = 10;
 
     /**
      * Initializes an atom object with random cordinates,
@@ -23,7 +25,8 @@ var anim = anim || {};
             bottom: canvas.height
         };
 
-        this.radius = radius;
+        this.radius = Math.random() * varRadius + minRadius;
+        this.mass = this.radius * weight;
         this.color = background;
 
         this.x = Math.random() * canvas.width;
@@ -87,6 +90,89 @@ var anim = anim || {};
         context.fill();
 
         context.restore();
+    }
+
+    /**
+     * Rotates the cordinate system
+     */
+    function rotate (x, y, sin, cos, reverse) {
+        return {
+            x: (reverse) ? (x * cos + y * sin) : (x * cos - y * sin),
+            y: (reverse) ? (y * cos - x * sin) : (y * cos + x * sin)
+        };
+    }
+
+    /**
+     * Checks if {this} atom collides with {arg atomB}
+     * and take appropriate actions
+     *
+     * {arg atomB} : instance of class {Atom} to check against
+     */
+    Atom.prototype.collide = function(atomB) {
+
+
+        var vx, vy;
+        var absorption = -0.01;
+
+        var dx = atomB.x - this.x;
+        var dy = atomB.y - this.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist && dist < atomB.radius + this.radius) {
+            var angle = Math.atan2(dy, dx);
+            var sin = Math.sin(angle);
+            var cos = Math.cos(angle);
+
+            // find rotated position and velocities
+            var pos0 = {x: 0, y: 0}
+            var pos1 = rotate(dx, dy, sin, cos, true);
+            var vel0 = rotate(this.vx, this.vy, sin, cos, true);
+            var vel1 = rotate(atomB.vx, atomB.vy, sin, cos, true);
+
+            //collision reaction
+            vxTotal = vel0.x - vel1.x;
+            vel0.x = ((this.mass - atomB.mass) * vel0.x + 2 * atomB.mass * vel1.x) /
+                        (this.mass + atomB.mass);
+            vel1.x = vxTotal + vel0.x;
+
+            //update position
+            pos0.x += vel0.x;
+            pos1.x += vel1.x;
+
+            //rotate positions back
+            var pos0F = rotate(pos0.x, pos0.y, sin, cos, false);
+            var pos1F = rotate(pos1.x, pos1.y, sin, cos, false);
+
+            //adjust positions to actual screen positions
+            atomB.x = this.x + pos1F.x;
+            atomB.y = this.y + pos1F.y;
+            this.x = this.x + pos0F.x;
+            this.y = this.y + pos0F.y;
+
+            //rotate velocities back
+            var vel0F = rotate(vel0.x, vel0.y, sin, cos, false);
+            var vel1F = rotate(vel1.x, vel1.y, sin, cos, false);
+
+            // update velocities
+            this.vx = vel0F.x;
+            this.vy = vel0F.y;
+            atomB.vx = vel1F.x;
+            atomB.vy = vel1F.y;
+        }
+
+        this.clamp();
+        atomB.clamp();
+    }
+
+    /**
+     * Clamps the atoms speed to maxSpeed
+     */
+    Atom.prototype.clamp = function() {
+        if (this.vx > maxSpeed)
+            this.vx = maxSpeed;
+
+        if (this.vy > maxSpeed)
+            this.vy = maxSpeed;
     }
 
     // external interface
