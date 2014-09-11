@@ -27,20 +27,20 @@ html, body {
     text-align: center;
 }
 
-.block {
+.timer-block {
     width: 200px;
     height: 250px;
     display: inline-block;
 }
 
-.block .numeric {
+.timer-block .numeric {
     color: rgba(255, 255, 255, 0.8);
     height: 110px;
     line-height: 110px;
     font-size: 64px;
 }
 
-.block .description {
+.timer-block .description {
     color: rgba(255, 255, 255, 0.4);
     text-transform: uppercase;
     letter-spacing: 6px;
@@ -51,7 +51,7 @@ html, body {
     line-height: 30px;
 }
 
-.block .binary {
+.timer-block .binary {
     height: 110px;
     padding: 10px;
     text-align: center;

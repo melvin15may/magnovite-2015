@@ -11,7 +11,7 @@
         <canvas id="canvas"></canvas>
 
         <div class="timer">
-            <div class="block">
+            <div class="timer-block">
                 <p class="numeric">24</p>
                 <p class="description">months</p>
                 <div class="binary">
@@ -23,7 +23,7 @@
                     <div class="dot"></div>
                 </div>
             </div>
-            <div class="block">
+            <div class="timer-block">
                 <p class="numeric">13</p>
                 <p class="description">days</p>
                 <div class="binary">
@@ -35,7 +35,7 @@
                     <div class="dot on"></div>
                 </div>
             </div>
-            <div class="block">
+            <div class="timer-block">
                 <p class="numeric">8</p>
                 <p class="description">hours</p>
                 <div class="binary">
@@ -47,7 +47,7 @@
                     <div class="dot on"></div>
                 </div>
             </div>
-            <div class="block">
+            <div class="timer-block">
                 <p class="numeric">15</p>
                 <p class="description">minutes</p>
                 <div class="binary">
@@ -59,7 +59,7 @@
                     <div class="dot"></div>
                 </div>
             </div>
-            <div class="block">
+            <div class="timer-block">
                 <p class="numeric">19</p>
                 <p class="description">seconds</p>
                 <div class="binary">
@@ -74,6 +74,10 @@
         </div>
     </div>
 
+    <!-- libs -->
+    <script src="js/lib/countdown.js"></script>
+
+    <script src="js/timer.js"></script>
     <script src="js/anim/utils.js"></script>
     <script src="js/anim/atom.js"></script>
     <script src="js/anim/anim.js"></script>
@@ -81,6 +85,7 @@
     <script>
     // get things rolling
     anim.init();
+    new app.Timer();
     </script>
 </body>
 </html>
