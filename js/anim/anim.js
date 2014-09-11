@@ -67,7 +67,7 @@ var anim = anim || {};
      * The main draw loop
      */
     function draw() {
-        //window.requestAnimationFrame(draw);
+        window.requestAnimationFrame(draw);
         context.clearRect(0, 0, canvas.width, canvas.height);
 
         // draw energy lines
