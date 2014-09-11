@@ -109,8 +109,6 @@ var anim = anim || {};
      * {arg atomB} : instance of class {Atom} to check against
      */
     Atom.prototype.collide = function(atomB) {
-
-
         var vx, vy;
         var absorption = -0.01;
 
