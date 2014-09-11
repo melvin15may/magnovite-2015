@@ -12,9 +12,10 @@ html, body {
 }
 
 #canvas {
+    position: absolute;
     background: #0a0e3e;
-    width: 100%;
-    height: auto;
+    left: 0;
+    bottom: 250px;
 }
 
 .landing {

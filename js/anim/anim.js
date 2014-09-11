@@ -28,8 +28,8 @@ var anim = anim || {};
     function main() {
         var i;
 
-        canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight - 250;
+        canvas.setAttribute('width', window.innerWidth);
+        canvas.setAttribute('height', window.innerHeight - 250);
 
         for (i = 0; i < nAtoms; i++) {
             atoms.push(new anim.Atom(canvas));
