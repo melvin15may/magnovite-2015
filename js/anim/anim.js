@@ -29,7 +29,7 @@ var anim = anim || {};
         var i;
 
         canvas.width = window.innerWidth;
-        canvas.height = window.innerHeight;
+        canvas.height = window.innerHeight - 250;
 
         for (i = 0; i < nAtoms; i++) {
             atoms.push(new anim.Atom(canvas));
