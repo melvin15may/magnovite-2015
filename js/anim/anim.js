@@ -10,6 +10,12 @@ var anim = anim || {};
     var nAtoms = 30;
     var energyMinDist = 150;
 
+    // the letters
+    var letters = [];
+
+    // array of {Line}s of all external facing edges
+    var externalLetterEdges = [];
+
     /**
      * Must be called to init the animation library
      */
@@ -31,9 +37,16 @@ var anim = anim || {};
         canvas.setAttribute('width', window.innerWidth);
         canvas.setAttribute('height', window.innerHeight - 250);
 
+        // init atoms
         for (i = 0; i < nAtoms; i++) {
             atoms.push(new anim.Atom(canvas));
         }
+
+        // init Letters
+        letters.push(new anim.Letter(100, 200, anim.shapeData.A));
+        letters.forEach(function(letter) {
+            Array.prototype.push.apply(externalLetterEdges, letter.external);
+        });
 
         draw();
     }
@@ -74,13 +87,28 @@ var anim = anim || {};
         atoms.forEach(function(atom) {
             atoms.forEach(function(atomB) {
                 energyLine(atom, atomB);
+
+                // collide atoms with themselves
                 atom.collide(atomB);
             });
         });
 
         // draw atoms
         atoms.forEach(function(atom) {
+            // collide atom with letters
+            externalLetterEdges.forEach(function(line) {
+                atom.collideLine(line);
+            });
+
             atom.update(context);
+        });
+
+        // draw letters
+        letters[0].draw(context);
+
+        // draw external edges seperately : // TODO: DEBUG
+        externalLetterEdges.forEach(function(line) {
+            line.draw(context);
         });
     }
 
