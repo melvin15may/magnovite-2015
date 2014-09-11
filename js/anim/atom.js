@@ -6,7 +6,7 @@ var anim = anim || {};
     var background = '#1d215c';
     var minRadius = 7;
     var varRadius = 3;
-    var maxSpeed = 0.6;
+    var maxSpeed = 0.7;
     var weight = 10;
 
     /**
@@ -28,6 +28,8 @@ var anim = anim || {};
         this.radius = Math.random() * varRadius + minRadius;
         this.mass = this.radius * weight;
         this.color = background;
+        this.highlightColor = 'rgba(88, 93, 155,';
+        this.highlightAlpha = 0;
 
         this.x = Math.random() * canvas.width;
         this.y = Math.random() * canvas.height;
@@ -88,6 +90,14 @@ var anim = anim || {};
 
         context.fillStyle = this.color;
         context.fill();
+
+        // do the highlight
+        if (this.highlightAlpha > 0) {
+            context.fillStyle = this.highlightColor + this.highlightAlpha + ')';
+            context.fill();
+
+            this.highlightAlpha = Math.max(this.highlightAlpha - 0.0010, 0);
+        }
 
         context.restore();
     }
@@ -156,6 +166,10 @@ var anim = anim || {};
             this.vy = vel0F.y;
             atomB.vx = vel1F.x;
             atomB.vy = vel1F.y;
+
+            // adjust alphas
+            this.highlightAlpha = Math.min(this.highlightAlpha + 0.4, 1);
+            atomB.highlightAlpha = Math.min(atomB.highlightAlpha + 0.4, 1);
         }
 
         this.clamp();
