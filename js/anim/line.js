@@ -9,8 +9,9 @@ var anim = anim || {};
      * {args x1, y1, x2, y2} cordinates of the vertices of the line
      * {args direction} if true, collision is taken from right,
      *              else from other side
+     * {args callback} gets called when something collides with this line
      */
-    function Line (x1, y1, x2, y2, direction) {
+    function Line (x1, y1, x2, y2, direction, callback) {
         var dy = y2 - y1;
         var dx = x2 - x1;
         var angle = Math.atan2(dy, dx);
@@ -34,6 +35,7 @@ var anim = anim || {};
         }
 
         this.lineWidth = 10;
+        this.callback = callback;
     }
 
     Line.prototype.draw = function (context) {

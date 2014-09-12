@@ -197,7 +197,7 @@ var anim = anim || {};
             y2 = cos * y1 - sin * x1;
             vy1 = cos * this.vy - sin * this.vx;
 
-            //perform bounce with rotated values
+            // collision happens
             if (y2 > -this.radius && y2 < vy1) {
                 //rotate coordinates and vel
                 var x2 = cos * x1 + sin * y1,
@@ -213,6 +213,11 @@ var anim = anim || {};
                 this.vy = cos * vy1 + sin * vx1;
                 this.x = line.x + x1;
                 this.y = line.y + y1;
+
+                // callback with the atom which collided passed in
+                if (line.callback) {
+                    line.callback(this);
+                }
             }
         }
     };

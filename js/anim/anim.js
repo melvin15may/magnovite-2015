@@ -1,5 +1,10 @@
 var anim = anim || {};
 
+/**
+ * Depends on
+ * {anim.Letter}
+ * {anim.Atom}
+ */
 (function() {
 
     var canvas = document.getElementById('canvas');

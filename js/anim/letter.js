@@ -1,7 +1,9 @@
 var anim = anim || {};
 
 /**
- * Depends on {anim.Triangle}
+ * Depends on
+ * {anim.Triangle}
+ * {anim.Line}
  */
 (function() {
 
