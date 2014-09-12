@@ -2,7 +2,29 @@ var anim = anim || {};
 
 (function() {
 
-    var fillStyles = ['#313886', '#1d226e', '#0e145d', '#2e347c'];
+    // highlight fade speeds
+    var fadeInSpeed = 0.01;
+    var fadeOutSpeed = 0.005;
+    var bumpAlpha = 0.3;
+
+    var colors = [
+        {
+            fill: '#313886',
+            highlight: 'rgba(151, 158, 236, '
+        },
+        {
+            fill: '#1d226e',
+            highlight: 'rgba(80, 85, 161, '
+        },
+        {
+            fill: '#0e145d',
+            highlight: 'rgba(65, 71, 144, '
+        },
+        {
+            fill: '#2e347c',
+            highlight: 'rgba(97, 103, 175,'
+        }
+    ];
 
     function Triangle(vertices, triangle) {
         var $this = this;
@@ -12,12 +34,36 @@ var anim = anim || {};
             vertices[triangle[2]]
         ];
 
-        var rand = Math.floor(Math.random() * fillStyles.length);
-        this.fillStyle = fillStyles[rand];
+        var rand = Math.floor(Math.random() * colors.length);
+        this.color = colors[rand];
+
+        this.highlightAlpha = 0;
+        this.fading = 'null';
     }
 
-    Triangle.prototype.callback = function(atom) {
-        console.log(atom);
+    Triangle.prototype.getCallback = function() {
+        var $this = this;
+
+        return function(atom) {
+            $this.highlightAlpha = Math.min($this.highlightAlpha + bumpAlpha, 1);
+            $this.fading = 'in';
+
+            $this.updateHighlight();
+        }
+    };
+
+    Triangle.prototype.updateHighlight = function() {
+        if (this.fading === 'in') {
+            this.highlightAlpha = Math.min(this.highlightAlpha + fadeInSpeed, 1);
+        } else if (this.fading === 'out') {
+            this.highlightAlpha = Math.max(this.highlightAlpha - fadeOutSpeed, 0);
+        }
+
+        if (this.highlightAlpha === 0) {
+            this.fading = 'null';
+        } else if (this.highlightAlpha === 1) {
+            this.fading = 'out';
+        }
     };
 
     Triangle.prototype.draw = function(context) {
@@ -30,8 +76,15 @@ var anim = anim || {};
         context.lineTo(cord[2][0], cord[2][1]);
         context.closePath();
 
-        context.fillStyle = this.fillStyle;
+        context.fillStyle = this.color.fill;
         context.fill();
+
+        if (this.highlightAlpha > 0) {
+            context.fillStyle = this.color.highlight + this.highlightAlpha + ')';
+            context.fill();
+
+            this.updateHighlight();
+        }
 
         context.restore();
     }

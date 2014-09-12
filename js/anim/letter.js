@@ -66,7 +66,7 @@ var anim = anim || {};
                     p1[0] + x, p1[1] + y,
                     p2[0] + x, p2[1] + y,
                     ext[2],
-                    tObj.callback
+                    tObj.getCallback()
                 ));
             });
         });

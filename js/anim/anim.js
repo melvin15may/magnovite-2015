@@ -77,7 +77,7 @@ var anim = anim || {};
         }
 
         // init Letters
-        letters = createLetters('VTVVTV');
+        letters = createLetters('VTTTV');
         letters.forEach(function(letter) {
             Array.prototype.push.apply(externalLetterEdges, letter.external);
         });
