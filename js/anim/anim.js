@@ -9,11 +9,16 @@ var anim = anim || {};
 
     var canvas = document.getElementById('canvas');
     var context = canvas.getContext('2d');
+    var mouse = anim.util.captureMouse(canvas);
 
     // the particles moving around
     var atoms = []
     var nAtoms = 30;
     var energyMinDist = 150;
+
+    // mouse effect
+    var mouseMaxDist = 150;
+    var mouseForce = 0.05;
 
     // the letters
     var letters = [];
@@ -111,14 +116,50 @@ var anim = anim || {};
     }
 
     /**
+     * Make the mouse interact with the atoms
+     */
+    function handleMouse(atom, context) {
+        var dx = mouse.x - atom.x;
+        var dy = mouse.y - atom.y;
+        var dist = Math.sqrt(dx * dx + dy * dy);
+
+        if (dist < mouseMaxDist) {
+            var angle = Math.atan2(dy, dx);
+            var ax = Math.cos(angle) * mouseForce;
+            var ay = Math.sin(angle) * mouseForce;
+
+            atom.vx += ax;
+            atom.vy += ay;
+
+            // mouse energy line
+            var alpha = (1 - dist / mouseMaxDist) * 0.8;
+            context.strokeStyle = 'rgba(0, 255, 0, ' + alpha + ')';
+            context.beginPath();
+            context.moveTo(mouse.x, mouse.y);
+            context.lineTo(atom.x, atom.y);
+            context.stroke();
+        }
+    }
+
+    /**
      * The main draw loop
      */
     function draw() {
         window.requestAnimationFrame(draw);
         context.clearRect(0, 0, canvas.width, canvas.height);
 
+        var buffer = 20;
+        var isMouseGravityOn = false;
+        if (mouse.x > 20 && mouse.x < canvas.width - buffer &&
+            mouse.y > 20 && mouse.y < canvas.height - buffer)
+            isMouseGravityOn = true;
+
         // draw energy lines
         atoms.forEach(function(atom) {
+            if (isMouseGravityOn) {
+                handleMouse(atom, context);
+            }
+
             atoms.forEach(function(atomB) {
                 energyLine(atom, atomB);
 
