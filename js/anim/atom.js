@@ -115,6 +115,7 @@ var anim = anim || {};
     /**
      * Checks if {this} atom collides with {arg atomB}
      * and take appropriate actions
+     * Straight from the book
      *
      * {arg atomB} : instance of class {Atom} to check against
      */
@@ -175,6 +176,51 @@ var anim = anim || {};
         this.clamp();
         atomB.clamp();
     }
+
+    /**
+     * Have the Atom collide with a {anim.Line} object
+     * Straight from the book
+     */
+    Atom.prototype.collideLine = function(line) {
+        var bounds = line.getBounds();
+
+        if (this.x + this.radius > bounds.x && this.x - this.radius < bounds.x + bounds.width &&
+            this.y + this.radius > bounds.y && this.y - this.radius < bounds.y + bounds.height) {
+            var cos = Math.cos(line.rotation),
+                sin = Math.sin(line.rotation),
+
+            //get position of ball, relative to line
+            x1 = this.x - line.x,
+            y1 = this.y - line.y,
+
+            //rotate coordinates and velocity
+            y2 = cos * y1 - sin * x1;
+            vy1 = cos * this.vy - sin * this.vx;
+
+            // collision happens
+            if (y2 > -this.radius && y2 < vy1) {
+                //rotate coordinates and vel
+                var x2 = cos * x1 + sin * y1,
+                vx1 = cos * this.vx + sin * this.vy;
+
+                y2 = -this.radius;
+                vy1 *= -1;
+
+                //rotate everything back
+                x1 = cos * x2 - sin * y2;
+                y1 = cos * y2 + sin * x2;
+                this.vx = cos * vx1 - sin * vy1;
+                this.vy = cos * vy1 + sin * vx1;
+                this.x = line.x + x1;
+                this.y = line.y + y1;
+
+                // callback with the atom which collided passed in
+                if (line.callback) {
+                    line.callback(this);
+                }
+            }
+        }
+    };
 
     /**
      * Clamps the atoms speed to maxSpeed

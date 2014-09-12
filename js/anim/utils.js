@@ -30,4 +30,12 @@ var anim = anim || {};
         return mouse;
     }
 
+    anim.util.forEachObj = function(obj, callback) {
+        for (var key in obj) {
+            if (obj.hasOwnProperty(key)) {
+                callback(key, obj[key]);
+            }
+        }
+    }
+
 })();
