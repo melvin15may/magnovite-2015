@@ -2,41 +2,49 @@ var anim = anim || {};
 
 anim.shapeData = {
     'A': {
+        'vertices': {
+            'A': [0, 0],
+            'B': [100, 0],
+            'C': [120, 0],
+            'D': [220, 0],
+            'E': [0, 20],
+            'F': [100, 20],
+            'G': [120, 20],
+            'H': [220, 20],
+            'I': [120, 120],
+            'J': [100, 220],
+            'K': [120, 220],
+            'L': [100, 120]
+        },
 
-        // x and y cordinate of the vertice
-        'vertices': [
-            [0, 0],
-            [100, 100],
-            [150, 120],
-            [200, 160],
-            [200, 100],
-            [250, 50],
-            [300, 50],
-            [300, 0]
-        ],
-
-        // has the pair of vertices making the edge
-        'edges': [
-            [0, 1],
-            [1, 2],
-            [2, 3],
-            [3, 4],
-            [4, 5],
-            [5, 6],
-            [6, 7],
-            [7, 0],
-            [2, 4],
-            [1, 4],
-            [4, 0]
-        ],
-
-        // has 3 edge indexes, edges should be in order A-B, B-C, C-A
-        // the last array has an object with two attributes,
-        // {i} is the index of the outer edge in the triangle
-        // {side} depending on true/false specifies which side is the outward
         'triangles': [
-            [0, 9, 10, [{i: 0, side: false}]],
-            [1, 8, 9, [{i: 0, side: false}]]
-        ]
+            ['A', 'E', 'F'],
+            ['A', 'F', 'B'],
+            ['B', 'F', 'C'],
+            ['C', 'F', 'G'],
+            ['C', 'G', 'H'],
+            ['C', 'H', 'D'],
+            ['F', 'I', 'G'],
+            ['F', 'L', 'I'],
+            ['L', 'J', 'I'],
+            ['J', 'I', 'K']
+        ],
+
+        // external edges, flip last value to fix which face
+        // is outside (one which bounces)
+        'external': [
+            ['A', 'B', true],
+            ['B', 'C', true],
+            ['C', 'D', true],
+            ['A', 'E', false],
+            ['E', 'F', false],
+            ['F', 'L', false],
+            ['L', 'J', false],
+            ['J', 'K', true],
+            ['K', 'I', false],
+            ['I', 'G', false],
+            ['G', 'H', false],
+            ['H', 'D', false]
+        ],
     }
 }

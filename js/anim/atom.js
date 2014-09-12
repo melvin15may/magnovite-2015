@@ -184,7 +184,8 @@ var anim = anim || {};
     Atom.prototype.collideLine = function(line) {
         var bounds = line.getBounds();
 
-        if (this.x + this.radius > bounds.x && this.x - this.radius < bounds.x + bounds.width) {
+        if (this.x + this.radius > bounds.x && this.x - this.radius < bounds.x + bounds.width &&
+            this.y + this.radius > bounds.y && this.y - this.radius < bounds.y + bounds.height) {
             var cos = Math.cos(line.rotation),
                 sin = Math.sin(line.rotation),
 

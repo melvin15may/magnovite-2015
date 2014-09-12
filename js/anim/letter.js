@@ -19,30 +19,29 @@ var anim = anim || {};
         var $this = this;
 
         this.vertices = data.vertices;
-        this.edges = data.edges;
-
-        this.external = [];
+        this.edges = [];
         this.triangles = [];
         data.triangles.forEach(function(triangle) {
-            var t = new anim.Triangle($this.vertices, $this.edges, triangle);
+            // add edges of this triangle
+            $this.edges.push([$this.vertices[triangle[0]], $this.vertices[triangle[1]]])
+            $this.edges.push([$this.vertices[triangle[1]], $this.vertices[triangle[2]]])
+            $this.edges.push([$this.vertices[triangle[0]], $this.vertices[triangle[2]]])
 
-            $this.triangles.push(t);
+            $this.triangles.push(new anim.Triangle($this.vertices, triangle));
+        })
 
-            // handle the external edges
-            var ext = t.getExternal();
-            for (var i = 0; i < ext.length; i++) {
-                ext[i][0][0] += x;
-                ext[i][0][1] += y;
+        this.external = [];
+        data.external.forEach(function(ext) {
+            var p1 = $this.vertices[ext[0]];
+            var p2 = $this.vertices[ext[1]];
 
-                ext[i][1][0] += x;
-                ext[i][1][1] += y;
-
-                $this.external.push(new anim.Line(
-                    ext[i][0][0], ext[i][0][1],
-                    ext[i][1][0], ext[i][1][1],
-                    ext[i][2]
-                ));
-            }
+            // create lines for external offseted by this letters
+            // offset
+            $this.external.push(new anim.Line(
+                p1[0] + x, p1[1] + y,
+                p2[0] + x, p2[1] + y,
+                ext[2]
+            ));
         });
 
         this.x = x;
@@ -50,7 +49,7 @@ var anim = anim || {};
     }
 
     Letter.prototype.draw = function(context) {
-        var _this = this;
+        var $this = this;
 
         context.save();
         context.translate(this.x, this.y);
@@ -62,7 +61,7 @@ var anim = anim || {};
 
         // draw vertices
         context.fillStyle = verticeFillStyle;
-        this.vertices.forEach(function(vertice) {
+        anim.util.forEachObj(this.vertices, function(name, vertice) {
             context.beginPath();
             context.arc(vertice[0], vertice[1], verticeRadius, 0, Math.PI * 2, false);
             context.closePath();
@@ -73,8 +72,8 @@ var anim = anim || {};
         // draw lines
         context.strokeStyle = lineStrokeStyle;
         this.edges.forEach(function(edge) {
-            var pointA = _this.vertices[edge[0]];
-            var pointB = _this.vertices[edge[1]];
+            var pointA = edge[0];
+            var pointB = edge[1];
 
             context.beginPath();
             context.moveTo(pointA[0], pointA[1]);

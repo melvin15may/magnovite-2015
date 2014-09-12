@@ -4,54 +4,16 @@ var anim = anim || {};
 
     var fillStyles = ['#ff0000', '#00ff00', '#0000ff'];
 
-    function Triangle(vertices, edges, triangle) {
+    function Triangle(vertices, triangle) {
         var $this = this;
-
-        this.external = triangle[3];
         this.cordinates = [
-            vertices[ edges[triangle[0]][0] ],
-            vertices[ edges[triangle[1]][0] ],
-            vertices[ edges[triangle[2]][0] ]
+            vertices[triangle[0]],
+            vertices[triangle[1]],
+            vertices[triangle[2]]
         ];
 
         var rand = Math.floor(Math.random() * fillStyles.length);
         this.fillStyle = fillStyles[rand];
-    }
-
-    /**
-     * Returns an array of cordinates for the external
-     * edges of this triangle
-     */
-    Triangle.prototype.getExternal = function() {
-        var $this = this;
-        var external = [];
-
-        this.external.forEach(function(obj) {
-            var i = obj.i;
-            var a, b;
-
-            switch (i) {
-            case 0:
-                a = 0; b = 1;
-                break;
-
-            case 1:
-                a = 1; b = 2;
-                break;
-
-            case 2:
-                a = 0; b = 2;
-                break;
-            }
-
-            external.push([
-                $this.cordinates[a].slice(0),
-                $this.cordinates[b].slice(0),
-                obj.side
-            ]);
-        });
-
-        return external;
     }
 
     Triangle.prototype.draw = function(context) {
