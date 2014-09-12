@@ -20,34 +20,17 @@ anim.shapeData = {
         },
 
         'triangles': [
-            ['A', 'E', 'F'],
-            ['A', 'F', 'B'],
-            ['B', 'F', 'C'],
-            ['C', 'F', 'G'],
-            ['C', 'G', 'H'],
-            ['C', 'H', 'D'],
-            ['F', 'I', 'G'],
-            ['F', 'L', 'I'],
-            ['L', 'J', 'I'],
-            ['J', 'I', 'K']
-        ],
-
-        // external edges, flip last value to fix which face
-        // is outside (one which bounces)
-        'external': [
-            ['A', 'B', true],
-            ['B', 'C', true],
-            ['C', 'D', true],
-            ['A', 'E', false],
-            ['E', 'F', false],
-            ['F', 'L', false],
-            ['L', 'J', false],
-            ['J', 'K', false],
-            ['K', 'I', false],
-            ['I', 'G', false],
-            ['G', 'H', false],
-            ['H', 'D', false]
-        ],
+            ['A', 'E', 'F', [['A', 'E', false], ['E', 'F', false]]],
+            ['A', 'F', 'B', [['A', 'B', true]]],
+            ['B', 'F', 'C', [['B', 'C', true]]],
+            ['C', 'F', 'G', []],
+            ['C', 'G', 'H', [['G', 'H', false]]],
+            ['C', 'H', 'D', [['C', 'D', true], ['H', 'D', false]]],
+            ['F', 'I', 'G', [['I', 'G', false]]],
+            ['F', 'L', 'I', [['F', 'L', false]]],
+            ['L', 'J', 'I', [['L', 'J', false]]],
+            ['J', 'I', 'K', [['J', 'K', false], ['K', 'I', false]]]
+        ]
     },
 
     'V': {
@@ -66,25 +49,13 @@ anim.shapeData = {
         },
 
         'triangles': [
-            ['A', 'E', 'B'],
-            ['B', 'E', 'F'],
-            ['E', 'H', 'F'],
-            ['F', 'H', 'I'],
-            ['F', 'I', 'G'],
-            ['C', 'F', 'G'],
-            ['C', 'G', 'D']
-        ],
-
-        'external': [
-            ['A', 'B', true],
-            ['A', 'E', false],
-            ['E', 'H', false],
-            ['H', 'I', false],
-            ['I', 'G', false],
-            ['G', 'D', false],
-            ['C', 'D', true],
-            ['C', 'F', false],
-            ['B', 'F', true]
+            ['A', 'E', 'B', [['A', 'B', true], ['A', 'E', false]]],
+            ['B', 'E', 'F', [['B', 'F', true]]],
+            ['E', 'H', 'F', [['E', 'H', false]]],
+            ['F', 'H', 'I', [['H', 'I', false]]],
+            ['F', 'I', 'G', [['I', 'G', false]]],
+            ['C', 'F', 'G', [['C', 'F', false]]],
+            ['C', 'G', 'D', [['G', 'D', false], ['C', 'D', true]]]
         ]
     }
 }

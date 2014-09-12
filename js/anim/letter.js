@@ -22,6 +22,8 @@ var anim = anim || {};
 
         this.vertices = data.vertices;
         this.edges = [];
+        this.external = [];
+
         this.edgeList = {};
         this.triangles = [];
         data.triangles.forEach(function(triangle) {
@@ -50,21 +52,23 @@ var anim = anim || {};
                 $this.edgeList[e02] = true;
             }
 
-            $this.triangles.push(new anim.Triangle($this.vertices, triangle));
-        })
+            var tObj = new anim.Triangle($this.vertices, triangle);
+            $this.triangles.push(tObj);
 
-        this.external = [];
-        data.external.forEach(function(ext) {
-            var p1 = $this.vertices[ext[0]];
-            var p2 = $this.vertices[ext[1]];
+            // handle external edges
+            triangle[3].forEach(function(ext) {
+                var p1 = $this.vertices[ext[0]];
+                var p2 = $this.vertices[ext[1]];
 
-            // create external lines
-            // adding, x and y to make cordinates global
-            $this.external.push(new anim.Line(
-                p1[0] + x, p1[1] + y,
-                p2[0] + x, p2[1] + y,
-                ext[2]
-            ));
+                // create external lines
+                // adding, x and y to make cordinates global
+                $this.external.push(new anim.Line(
+                    p1[0] + x, p1[1] + y,
+                    p2[0] + x, p2[1] + y,
+                    ext[2],
+                    tObj.callback
+                ));
+            });
         });
 
         this.x = x;

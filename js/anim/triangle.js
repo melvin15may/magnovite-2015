@@ -16,6 +16,10 @@ var anim = anim || {};
         this.fillStyle = fillStyles[rand];
     }
 
+    Triangle.prototype.callback = function(atom) {
+        console.log(atom);
+    };
+
     Triangle.prototype.draw = function(context) {
         var cord = this.cordinates;
         context.save();
