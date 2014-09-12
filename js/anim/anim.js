@@ -28,6 +28,35 @@ var anim = anim || {};
     }
 
     /**
+     * Layout letters, all letter should be of height 240
+     */
+    function createLetters(text) {
+        var letterSpacing = 30;
+
+        var letters = [];
+
+        // calculate width needed
+        var totalWidth = 0;
+        text.split('').forEach(function(c) {
+            totalWidth += anim.shapeData[c].width;
+            totalWidth += letterSpacing;
+        });
+        totalWidth -= letterSpacing;
+
+        var letterX = (canvas.width / 2) - (totalWidth / 2);
+        var letterY = (canvas.height / 2) - (240 / 2);
+        text.split('').forEach(function(c) {
+            var shape = anim.shapeData[c];
+
+            letters.push(new anim.Letter(letterX, letterY, shape));
+
+            letterX += shape.width + letterSpacing;
+        });
+
+        return letters;
+    }
+
+    /**
      * Essentially the entry point for the app
      * Called after DOM load
      */
@@ -43,9 +72,7 @@ var anim = anim || {};
         }
 
         // init Letters
-        letters.push(new anim.Letter(100, 120, anim.shapeData.T));
-        letters.push(new anim.Letter(400, 120, anim.shapeData.V));
-
+        letters = createLetters('VTVVTV');
         letters.forEach(function(letter) {
             Array.prototype.push.apply(externalLetterEdges, letter.external);
         });

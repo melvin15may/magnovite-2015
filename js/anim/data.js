@@ -2,6 +2,8 @@ var anim = anim || {};
 
 anim.shapeData = {
     'T': {
+        'width': 240,
+        'height': 240,
         'vertices': {
             'A': [0, 0],
             'B': [100, 0],
@@ -49,6 +51,8 @@ anim.shapeData = {
     },
 
     'V': {
+        'width': 120,
+        'height': 200,
         'vertices': {
             'A': [0, 0],
             'B': [40, 0],
@@ -57,8 +61,8 @@ anim.shapeData = {
             'E': [20, 97],
             'F': [60, 150],
             'G': [100, 97],
-            'H': [40, 200],
-            'I': [80, 200]
+            'H': [40, 240],
+            'I': [80, 240]
         },
 
         'triangles': [
