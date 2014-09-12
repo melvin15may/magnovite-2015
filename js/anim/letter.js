@@ -56,8 +56,8 @@ var anim = anim || {};
             var p1 = $this.vertices[ext[0]];
             var p2 = $this.vertices[ext[1]];
 
-            // create lines for external offseted by this letters
-            // offset
+            // create external lines
+            // adding, x and y to make cordinates global
             $this.external.push(new anim.Line(
                 p1[0] + x, p1[1] + y,
                 p2[0] + x, p2[1] + y,
