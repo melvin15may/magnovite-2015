@@ -20,12 +20,33 @@ var anim = anim || {};
 
         this.vertices = data.vertices;
         this.edges = [];
+        this.edgeList = {};
         this.triangles = [];
         data.triangles.forEach(function(triangle) {
-            // add edges of this triangle
-            $this.edges.push([$this.vertices[triangle[0]], $this.vertices[triangle[1]]])
-            $this.edges.push([$this.vertices[triangle[1]], $this.vertices[triangle[2]]])
-            $this.edges.push([$this.vertices[triangle[0]], $this.vertices[triangle[2]]])
+            var e01 = triangle[0] + triangle[1];
+            var e10 = triangle[1] + triangle[0];
+
+            var e12 = triangle[1] + triangle[2];
+            var e21 = triangle[2] + triangle[1];
+
+            var e02 = triangle[0] + triangle[2];
+            var e20 = triangle[2] + triangle[0];
+
+            // make sure we dont re-add edges
+            if (!(e01 in $this.edgeList || e10 in $this.edgeList)) {
+                $this.edges.push([$this.vertices[triangle[0]], $this.vertices[triangle[1]]])
+                $this.edgeList[e01] = true;
+            }
+
+            if (!(e12 in $this.edgeList || e21 in $this.edgeList)) {
+                $this.edges.push([$this.vertices[triangle[1]], $this.vertices[triangle[2]]])
+                $this.edgeList[e12] = true;
+            }
+
+            if (!(e02 in $this.edgeList || e20 in $this.edgeList)) {
+                $this.edges.push([$this.vertices[triangle[0]], $this.vertices[triangle[2]]])
+                $this.edgeList[e02] = true;
+            }
 
             $this.triangles.push(new anim.Triangle($this.vertices, triangle));
         })
