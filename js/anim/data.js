@@ -42,7 +42,7 @@ anim.shapeData = {
             ['E', 'F', false],
             ['F', 'L', false],
             ['L', 'J', false],
-            ['J', 'K', true],
+            ['J', 'K', false],
             ['K', 'I', false],
             ['I', 'G', false],
             ['G', 'H', false],

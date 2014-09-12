@@ -5,9 +5,9 @@ var anim = anim || {};
  */
 (function() {
 
-    var verticeFillStyle = '#8D95F0';
+    var verticeFillStyle = 'rgba(80, 186, 248, 0.9)';
     var verticeRadius = 2;
-    var lineStrokeStyle = 'rgba(141, 149, 240, 0.5)';
+    var lineStrokeStyle = 'rgba(80, 186, 248, 0.5)';
 
     /**
      * The Letter object, represents each single letter

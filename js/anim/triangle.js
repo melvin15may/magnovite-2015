@@ -2,7 +2,7 @@ var anim = anim || {};
 
 (function() {
 
-    var fillStyles = ['#ff0000', '#00ff00', '#0000ff'];
+    var fillStyles = ['#313886', '#1d226e', '#0e145d', '#2e347c'];
 
     function Triangle(vertices, triangle) {
         var $this = this;
