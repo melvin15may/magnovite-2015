@@ -43,7 +43,9 @@ var anim = anim || {};
         }
 
         // init Letters
-        letters.push(new anim.Letter(100, 200, anim.shapeData.A));
+        letters.push(new anim.Letter(100, 120, anim.shapeData.T));
+        letters.push(new anim.Letter(400, 120, anim.shapeData.V));
+
         letters.forEach(function(letter) {
             Array.prototype.push.apply(externalLetterEdges, letter.external);
         });
@@ -104,12 +106,14 @@ var anim = anim || {};
         });
 
         // draw letters
-        letters[0].draw(context);
+        letters.forEach(function(letter) {
+            letter.draw(context);
+        })
 
         // draw external edges seperately : // TODO: DEBUG
-        externalLetterEdges.forEach(function(line) {
-            line.draw(context);
-        });
+        // externalLetterEdges.forEach(function(line) {
+        //     line.draw(context);
+        // });
     }
 
     // set external interface
